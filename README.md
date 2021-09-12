@@ -1,5 +1,8 @@
 # Kotlin programming tutorial
 
+[hello world program](#hello-world-program)    
+[DECIMAL NUMBERS](#decimal-numbers)
+
 ### why you should lear Kotlin
 1. Complete mull safety. (have to specially create null objects)
 2. Use all java libraries in Kotlin, too. (because same bitecode)
@@ -63,6 +66,7 @@ fun main() {
 }
 ```
 
+#decimal-numbers
 ### DECIMAL NUMBERS
 
 to get decibel number as operator result we have to convert input number to decibel too.
@@ -664,37 +668,363 @@ abstract class Shape( // add "abstract" keyword for
 
 ### OBJECTS AND COMPANION OBJECTS
 
+to create class on new file    
+"src" file [r-click] > "New" > "Kotlin File/Class" > [select] object & and name of class.        
+but we can create object with "object" keyword in any ware.   
+
+#### OBJECTS
+
 ```kotlin
 
+fun main() {
 
+    var myCircle = Circle(2)
+    println("area of circle ${myCircle.area()}")
+
+}
+
+class Circle (
+        val radius:Int
+){
+    val pi = 3.1 // common value for class
+    // here the problem is for every instance we are creating same value variable.
+
+    init{
+        println("Circle created with radius= $radius ")
+    }
+
+    // here we can get object value(/function) without create instance(directly)
+    fun area() = radius * radius * importantNumbers.pi
+
+}
+
+object importantNumbers{
+    val pi = 3.1
+
+    fun someFunction(){
+
+    }
+}
+
+```
+
+#### companion object    
+instance create inside companion object may be ?     
+
+```kotlin
+
+import kotlin.random.Random
+
+fun main() {
+
+    var myCircle = Circle(2.0)
+    println("area of circle ${myCircle.area()}")
+
+    // here we no need to create instance ***
+    println("area of circle ${Circle.randomCircle()}")
+
+}
+
+class Circle (
+        val radius:Double
+){
+    // companion object ***
+    companion object{
+        fun randomCircle():Circle{
+            val radius = Random.nextDouble(1.0, 10.0)
+            return Circle(radius)
+        }
+    }
+    val pi = 3.1 // common value for class
+
+    init{
+        println("Circle created with radius= $radius ")
+    }
+
+    fun area() = radius * radius * pi
+
+}
 
 ```
 
 ### ANONYMOUS CLASSES
 
-```kotlin
+normally we can't create instance from abstract class.      
+But using anonymous classes we can do it.     
 
+```kotlin
+fun main() {
+
+    val myCircle = Circle(5)
+    println("area : ${myCircle.area()}")
+
+    val a = 3.0
+    val b = 4.0
+    val height = 2.0
+    val parallelogram = object : Shape("parallelogram", a, b, height){
+
+        init {
+            println("Parallelogram created width a= $a, b=$b, height=$height")
+        }
+
+        override fun area():Double{
+            return a*height;
+        }
+    }
+
+    // call abstract class as anonymously
+    println("Is the parallelogram area : ${parallelogram.area()}")
+
+}
+
+abstract class Shape(
+        val name:String
+){
+    constructor(name: String, vararg dimensions:Double ) : this(name)
+
+    init{
+        println("The shape name is : $name")
+    }
+
+    abstract fun area():Double
+}
+
+open class Circle (
+        val radius:Int
+):Shape("shp"){
+
+    val pi = 3.1 // common value for class
+
+    init{
+        println("Circle created with radius= $radius ")
+    }
+
+    override fun area() = radius * radius * pi
+
+}
 
 
 ```
 ### EXCEPTIONS
 
+If program crash anyware it will not work further commands. So we have to handle it.    
+you can use try-catch block in normal way too.
+
 ```kotlin
 
+import java.lang.Exception
+import java.lang.NumberFormatException
 
+fun main() {
+
+    println("Please enter a number :")
+    val input =try{
+        readLine()?.toInt()
+    }catch (e:NumberFormatException){
+        0 // return value to "input" variable
+    }finally {
+        println("This is from the finally block")
+    }
+    println("You entered $input")
+
+    // custom exception
+    val division = try {
+        divide(2.0,0.0)
+    }catch (e:DivisionByZeroException){
+        println("custom error : $e")
+        0.0 // return value to "input" variable
+    }
+    println("value of division $division")
+}
+
+// crate custom exception
+class DivisionByZeroException : Exception("You cannot divide by zero. please choose other number")
+
+fun divide(a:Double, b:Double):Double{
+    if(b==0.0){
+        throw DivisionByZeroException()
+    }
+    return a/b
+}
 
 ```
 ### LAMBDA FUNCTIONS
 
+here we are passing custom function/expression to build in function  
+
 ```kotlin
 
+fun main() {
 
+    var list:List<Int> = (1..20).toList()
+    println("list : $list")
+    list = list.filter { it % 2 == 0 } // "it" is item from list (keyword)
+    println("list : $list")
+
+}
 
 ```
-### GENERICS
+
+custom lambda function
 
 ```kotlin
 
+fun main() {
+
+    val circle1 = Circle(5)
+    val circle2 = Circle(3)
+    val circle3 = Circle(6)
+
+    val triangle1 = Triangle(6, 2)
+    val triangle2 = Triangle(4, 4)
+    val triangle3 = Triangle(2, 6)
+
+    var shapes:List<Shape> = listOf<Shape>(circle1,circle2,circle3,triangle1,triangle2,triangle3)
+
+    // just filter as lambda ***
+    //shapes = shapes.filter { it.area() > 5.0 }
+
+    // filter and sort as lambda **
+    //shapes = shapes.filter { it.area() > 5.0 }.sortedBy { it.area() }
+
+    // filter  as custom lambda **
+    //shapes = shapes.customFilter { it.area() > 5.0 }
+
+    // filter  as custom lambda when we have several parameters  **
+    shapes = shapes.customFilter { shape, string -> shape.area() > 5.0 }
+
+    for (shape in shapes){
+        println("${shape.name} : Area = ${shape.area()}")
+    }
+
+
+}
+
+// create custom lambda function with EXTENSION function
+//fun List<Shape>.customFilter(filterFunction :(Shape) -> (Boolean)):List<Shape>{
+//    val resultList:MutableList<Shape> = mutableListOf<Shape>()
+//    for (shape:Shape in this){
+//        if(filterFunction(shape)){
+//            resultList.add(shape)
+//        }
+//    }
+//    return resultList
+//}
+
+fun List<Shape>.customFilter(filterFunction :(Shape,String) -> (Boolean)):List<Shape>{
+    val resultList:MutableList<Shape> = mutableListOf<Shape>()
+    for (shape:Shape in this){
+        if(filterFunction(shape, str)){
+            resultList.add(shape)
+        }
+    }
+    return resultList
+}
+
+
+// here we put "Shape" class for set type of list of shapes
+abstract class Shape(
+        val name:String
+){
+    abstract fun area():Double
+}
+
+open class Circle(
+         val redius:Int
+):Shape("circle"){
+    val pi = 3.1
+    init {
+        println("call circle class in redius:${redius}")
+    }
+    override fun area():Double = redius * pi
+}
+
+open class Triangle(
+         val width:Int,
+         val height:Int
+):Shape("triangle"){
+    init {
+        println("call triangle class in width:${width} and height:${height}")
+    }
+    override fun area():Double = width * height / 2.0
+}
+
+```
+
+### GENERICS
+
+above custom lambda function is working for only "Shape" type. So let's set that "customFilter"
+function work for any "List" of types.    
+
+```kotlin
+fun main() {
+
+    val circle1 = Circle(5)
+    val circle2 = Circle(3)
+    val circle3 = Circle(6)
+
+    val triangle1 = Triangle(6, 2)
+    val triangle2 = Triangle(4, 4)
+    val triangle3 = Triangle(2, 6)
+
+    var shapes:List<Shape> = listOf<Shape>(circle1,circle2,circle3,triangle1,triangle2,triangle3)
+
+    var intList:List<Int> = (1..20).toList()
+    intList = intList.customFilter { n -> n > 2 }
+    println("intList : $intList")
+
+    // filter  as custom lambda when we have several parameters  **
+    shapes = shapes.customFilter { shape -> shape.area() > 5.0 }
+
+    for (shape in shapes){
+        println("${shape.name} : Area = ${shape.area()}")
+    }
+
+
+}
+
+ // create custom lambda function with EXTENSION function and Any Type <T>
+ // here we are add <T> after "fun" keyword and other types.
+fun <T> List<T>.customFilter(filterFunction :(T) -> (Boolean)):List<T>{
+    val resultList:MutableList<T> = mutableListOf<T>()
+    for (shape:T in this){
+        if(filterFunction(shape)){
+            resultList.add(shape)
+        }
+    }
+    return resultList
+}
+
+// limit for Type
+// fun <T:Number>  : T is limited for Numbers
+
+
+// here we put "Shape" class for set type of list of shapes
+abstract class Shape(
+        val name:String
+){
+    abstract fun area():Double
+}
+
+open class Circle(
+         val redius:Int
+):Shape("circle"){
+    val pi = 3.1
+    init {
+        println("call circle class in redius:${redius}")
+    }
+    override fun area():Double = redius * pi
+}
+
+open class Triangle(
+         val width:Int,
+         val height:Int
+):Shape("triangle"){
+    init {
+        println("call triangle class in width:${width} and height:${height}")
+    }
+    override fun area():Double = width * height / 2.0
+}
 
 
 ```
