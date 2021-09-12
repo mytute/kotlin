@@ -1,7 +1,34 @@
 # Kotlin programming tutorial
 
+## Content
+
 [hello world program](#hello-world-program)    
-[DECIMAL NUMBERS](#decimal-numbers)
+[VAR, VAL, INTEGER, BOOLEAN](#var,-val,-integer,-boolean)    
+[ARITHMETIC OPERATORS](#arithmetic-operators)        
+[DECIMAL NUMBERS](#decimal-numbers)    
+[STRINGS](#strings)        
+[LOGICAL AND COMPARISON OPERATORS](#logical-and-comparison-operators)    
+[IF CONDITIONS](#if-conditions)    
+[User Input and NULL values](#user-input-and-null-values)    
+[Array](#array)        
+[While loop](#while-loop)        
+[For loop](#for-loop)        
+[LIST](#list)    
+[When](#when)        
+[Function](#function)    
+[VARARG, DEFAULT AND NAMED PARAMETERS](#vararg,-default-and-named-parameters)    
+[Class](#class)    
+[INHERITANCE](#inheritance)        
+[VISIBILITY MODIFIRES](#visibility-modifires)
+[ABSTRACT CLASSES](#abstract-classes)    
+[CONSTRUCTOR OVERLOADING AND FUNCTION OVERLOADING](#constructor-overloading-and-function-overloading)    
+[OBJECTS AND COMPANION OBJECTS](#objects-and-companion-objects)       
+[OBJECTS](#objects)    
+[companion object](#companion-object)    
+[ANONYMOUS CLASSES](#anonymous-classes)    
+[EXCEPTIONS](#exceptions)    
+[LAMBDA FUNCTIONS](#lambda-functions)    
+[GENERICS](#generics)    
 
 ### why you should lear Kotlin
 1. Complete mull safety. (have to specially create null objects)
@@ -66,7 +93,6 @@ fun main() {
 }
 ```
 
-#decimal-numbers
 ### DECIMAL NUMBERS
 
 to get decibel number as operator result we have to convert input number to decibel too.
