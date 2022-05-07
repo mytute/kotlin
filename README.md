@@ -89,7 +89,7 @@ fun main() {
     println(15-7)
     println(15*7)
     println(15/7) // result be a hole number. because both numbers are integer.
-    println(15.0/7) // result be a hole number. because both numbers are integer.
+    println(15.0/7) // result be a decimal number.
 }
 ```
 
